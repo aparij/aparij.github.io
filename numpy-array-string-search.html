@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8">
-        <title>My humble blog</title>
+        <title>Numpy substring search indexed result</title>
         <link rel="stylesheet" href="/theme/css/main.css">
                 <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="My humble blog Atom Feed" />
                 
@@ -16,16 +16,19 @@
                 <h1><a href="/">My humble blog </a></h1>
                 <nav><ul>
                                     <li><a href="http://www.alexparij.com">Home Page</a></li>
-                                                                                    <li ><a href="/category/python.html">Python</a></li>
+                                                                                    <li class="active"><a href="/category/python.html">Python</a></li>
                                                 </ul></nav>
         </header><!-- /#banner -->
-                
-            
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/numpy-array-string-search.html" rel="bookmark"
+           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed result</a></h1>
+          </header>
 
-                            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/numpy-array-string-search.html">Numpy substring search indexed result</a></h1> 
-                    <footer class="post-info">
+    <div class="entry-content">
+      <footer class="post-info">
         <abbr class="published" title="2013-05-29T10:20:00">
                 Wed 29 May 2013
         </abbr>
@@ -35,7 +38,7 @@
         </address>
         <p>In <a href="/category/python.html">Python</a>. </p>
 <p>tags: <a href="/tag/python.html">python</a><a href="/tag/numpy.html">numpy</a></p>
-</footer><!-- /.post-info --><p>Working on Kaggle’s Titanic competition I needed to test each Numpy array cell if the string s1 contains the second string s2 and return an indexed array with True/False values.
+</footer><!-- /.post-info -->      <p>Working on Kaggle’s Titanic competition I needed to test each Numpy array cell if the string s1 contains the second string s2 and return an indexed array with True/False values.
 Let's define an array:</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">:</span> <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
 
@@ -78,14 +81,12 @@ Trying :</p>
 <p>If you want to select only one column, you do like this:</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="s">&quot;MR&quot;</span> <span class="n">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="n">in</span> <span class="n">nparr</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">].</span><span class="n">flat</span><span class="p">])</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">:</span> <span class="n">array</span><span class="p">([</span><span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="kt">bool</span><span class="p">)</span>
-</pre></div>                </article>
-                                    <p class="paginator">
-        Page 1 / 1
-    </p>
-                            </aside><!-- /#featured -->
-                                                </ol><!-- /#posts-list -->
-                        </section><!-- /#content -->
-                    <section id="extras" class="body">
+</pre></div>
+    </div><!-- /.entry-content -->
+    
+  </article>
+</section>
+        <section id="extras" class="body">
                         <div class="blogroll">
                         <h2>blogroll</h2>
                         <ul>
