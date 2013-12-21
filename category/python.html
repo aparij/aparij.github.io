@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
         <title>My humble blog - Python</title>
-        <link rel="stylesheet" href="/theme/css/main.css">
-                
+        <link rel="stylesheet" href="http://blog.alexparij.com/theme/css/main.css" />
+        <link href="http://blog.alexparij.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="My humble blog Atom Feed" />
+
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -12,54 +13,95 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">My humble blog </a></h1>
+                <h1><a href="http://blog.alexparij.com/">My humble blog </a></h1>
                 <nav><ul>
-                                                                                    <li class="active"><a href="/category/python.html">Python</a></li>
-                                                </ul></nav>
+                    <li><a href="http://www.alexparij.com">Personal Page</a></li>
+                    <li class="active"><a href="http://blog.alexparij.com/category/python.html">Python</a></li>
+                </ul></nav>
         </header><!-- /#banner -->
-                
-            
 
-                            <aside id="featured" class="body">
+            <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/my-super-post.html">First post</a></h1> 
-                    <footer class="post-info">
+                    <h1 class="entry-title"><a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html">Kaggle's Facebook competition</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-12-21T10:20:00">
+                Sat 21 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://blog.alexparij.com/author/alex-parij.html">Alex Parij</a>
+        </address>
+<p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a><a href="http://blog.alexparij.com/tag/gensim.html">gensim</a><a href="http://blog.alexparij.com/tag/machinelearning.html">machinelearning</a></p>
+</footer><!-- /.post-info --><p>Kaggle's FacebookIII keyword extraction competition is over.
+It was about predicting tags to StackExchange questions.
+Check it out at <a href="http://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction">Kaggle</a>.</p>
+<p>I've entered at very late stage to this competition, hence didn't have time to properly experiment. 
+My final standing was quite low 316/380, but I just had 3 weeks comparing to 4 months of the total competition's length, so I'm ok with that.
+It was also my first experience with Gensim library (after reading the "Building Machine Learning Systems with Python" by Rciher,Coelho). </p>
+<p>I've tried to model the question's topic using LDA<a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Read on Wikipedia</a>. For preprocessing I used NLTK with stemming, stop words and punctuation marks removed. 
+Removing Less frequent words (words that I encountered only once). Tried to remove code snippets.
+Then I would find the most similar question based on the topics and take the tags from training to the test question and drop less frequent tags</p>
+<h1>So what could have I done better ?</h1>
+<p>Preprocessing should be done once, while I did every time I was building a dictionary or corpora. It would have probably sped 
+it up by atleast x2. 
+More automatic parallezation(although I used MLK by Contunium Analytics to get some free optimization to 4 threads).
+I could have made some simple code to split/load large test file. It's still can be done manually using linux split on test.csv and then "cat * &gt; out" combining the results.
+POS tagging was too slow but I can see that with other speed improvements POS can be used to remove adjectives,adverbs and others, lowering the numbfer of features.
+The were too many features (1mil words) for 3mil training entries! I should have tried to remove most of them. Removing words with freq=1 was not enough.
+In the end for 3 mil training rows the similarity search was too slow and 2 mil test rows will take 48 hours to calculate. I desperately tried to move to high-end machines in Amazon cloud. It did speed up things since it had 8 cores to work and I could just split the test file across processes.
+For some reason MKL or BLAS run only with one thread, I tried to use StarCluster ec2 image that comes with all the SciPy libs preinstalled but still it would persistenly run on one thread. Compiling from scratch was too complex with the limited time I had.</p>
+<p>Anyways , next time I should start earlier.</p>
+<p>The source is on <a href="https://github.com/aparij/KaggleFacebookIII">Github</a></p><p>There are <a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://blog.alexparij.com/numpy-array-string-search.html" rel="bookmark"
+                           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed result</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
         <abbr class="published" title="2013-05-29T10:20:00">
                 Wed 29 May 2013
         </abbr>
 
-                <address class="vcard author">
-                By <a class="url fn" href="/author/alex-parij.html">Alex Parij</a>
+        <address class="vcard author">
+                By <a class="url fn" href="http://blog.alexparij.com/author/alex-parij.html">Alex Parij</a>
         </address>
-        <p>In <a href="/category/python.html">Python</a>. </p>
-<p>tags: <a href="/tag/pelican.html">pelican</a><a href="/tag/publishing.html">publishing</a></p>
-</footer><!-- /.post-info --><p>This is the content of my super blog post.</p>                </article>
-                                    <p class="paginator">
-        Page 1 / 1
-    </p>
-                            </aside><!-- /#featured -->
-                                                </ol><!-- /#posts-list -->
-                        </section><!-- /#content -->
-                    <section id="extras" class="body">
-                        <div class="blogroll">
+<p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a></p>
+</footer><!-- /.post-info -->                <p>Short version for index and feeds</p>
+                <a class="readmore" href="http://blog.alexparij.com/numpy-array-string-search.html">read more</a>
+<p>There are <a href="http://blog.alexparij.com/numpy-array-string-search.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
                         <h2>blogroll</h2>
                         <ul>
-                                                    <li><a href="http://getpelican.com/">Pelican</a></li>
-                                                    <li><a href="http://python.org/">Python.org</a></li>
-                                                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                                                    <li><a href="#">You can modify those links in your config file</a></li>
-                                                </ul>
+                            <li><a href="http://www.alexparij.com">Alex Parij</a></li>
+                        </ul>
                 </div><!-- /.blogroll -->
-                                <div class="social">
+                <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/None" type="application/atom+xml" rel="alternate">atom feed</a></li>
-                            
-                                                    <li><a href="#">You can add links in your config file</a></li>
-                                                    <li><a href="#">Another social link</a></li>
-                                                </ul>
+                            <li><a href="http://blog.alexparij.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://twitter.com/alex_parij">Twitter</a></li>
+                            <li><a href="http://ca.linkedin.com/in/alexanderparij">Linkedin</a></li>
+                        </ul>
                 </div><!-- /.social -->
-                </section><!-- /#extras -->
+        </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">
                 <address id="about" class="vcard body">
@@ -69,5 +111,24 @@
                 <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
         </footer><!-- /#contentinfo -->
 
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41546314-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'alexparijblog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
 </body>
 </html>

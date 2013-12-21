@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>My humble blog</title>
+        <title>Kaggle's Facebook competition</title>
         <link rel="stylesheet" href="http://blog.alexparij.com/theme/css/main.css" />
         <link href="http://blog.alexparij.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="My humble blog Atom Feed" />
 
@@ -16,13 +16,18 @@
                 <h1><a href="http://blog.alexparij.com/">My humble blog </a></h1>
                 <nav><ul>
                     <li><a href="http://www.alexparij.com">Personal Page</a></li>
-                    <li><a href="http://blog.alexparij.com/category/python.html">Python</a></li>
+                    <li class="active"><a href="http://blog.alexparij.com/category/python.html">Python</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html" rel="bookmark"
+           title="Permalink to Kaggle's Facebook competition">Kaggle's Facebook competition</a></h1>
+    </header>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html">Kaggle's Facebook competition</a></h1>
+    <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2013-12-21T10:20:00">
                 Sat 21 December 2013
@@ -33,7 +38,7 @@
         </address>
 <p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a><a href="http://blog.alexparij.com/tag/gensim.html">gensim</a><a href="http://blog.alexparij.com/tag/machinelearning.html">machinelearning</a></p>
-</footer><!-- /.post-info --><p>Kaggle's FacebookIII keyword extraction competition is over.
+</footer><!-- /.post-info -->      <p>Kaggle's FacebookIII keyword extraction competition is over.
 It was about predicting tags to StackExchange questions.
 Check it out at <a href="http://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction">Kaggle</a>.</p>
 <p>I've entered at very late stage to this competition, hence didn't have time to properly experiment. 
@@ -52,39 +57,24 @@ The were too many features (1mil words) for 3mil training entries! I should have
 In the end for 3 mil training rows the similarity search was too slow and 2 mil test rows will take 48 hours to calculate. I desperately tried to move to high-end machines in Amazon cloud. It did speed up things since it had 8 cores to work and I could just split the test file across processes.
 For some reason MKL or BLAS run only with one thread, I tried to use StarCluster ec2 image that comes with all the SciPy libs preinstalled but still it would persistenly run on one thread. Compiling from scratch was too complex with the limited time I had.</p>
 <p>Anyways , next time I should start earlier.</p>
-<p>The source is on <a href="https://github.com/aparij/KaggleFacebookIII">Github</a></p><p>There are <a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>The source is on <a href="https://github.com/aparij/KaggleFacebookIII">Github</a></p>
+    </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "kaggle-facebook-competition-keyword-extraction.html";
+        var disqus_url = "http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://alexparijblog.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
 
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="http://blog.alexparij.com/numpy-array-string-search.html" rel="bookmark"
-                           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed result</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2013-05-29T10:20:00">
-                Wed 29 May 2013
-        </abbr>
-
-        <address class="vcard author">
-                By <a class="url fn" href="http://blog.alexparij.com/author/alex-parij.html">Alex Parij</a>
-        </address>
-<p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
-<p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a></p>
-</footer><!-- /.post-info -->                <p>Short version for index and feeds</p>
-                <a class="readmore" href="http://blog.alexparij.com/numpy-array-string-search.html">read more</a>
-<p>There are <a href="http://blog.alexparij.com/numpy-array-string-search.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-            </ol><!-- /#posts-list -->
-<p class="paginator">
-    Page 1 / 1
-</p>
-            </section><!-- /#content -->
+  </article>
+</section>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>blogroll</h2>

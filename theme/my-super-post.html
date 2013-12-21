@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>Numpy substring indexing</title>
+        <link rel="stylesheet" href="/theme/css/main.css">
+                
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">My humble blog </a></h1>
+                <nav><ul>
+                                                                                    <li class="active"><a href="/category/python.html">Python</a></li>
+                                                </ul></nav>
+        </header><!-- /#banner -->
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/my-super-post.html" rel="bookmark"
+           title="Permalink to Numpy substring indexing">Numpy substring indexing</a></h1>
+          </header>
+
+    <div class="entry-content">
+      <footer class="post-info">
+        <abbr class="published" title="2013-05-29T10:20:00">
+                Wed 29 May 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="/author/alex-parij.html">Alex Parij</a>
+        </address>
+        <p>In <a href="/category/python.html">Python</a>. </p>
+<p>tags: <a href="/tag/pelican.html">pelican</a><a href="/tag/publishing.html">publishing</a></p>
+</footer><!-- /.post-info -->      <p>Working on Kaggle’s Titanic competition I needed to test each Numpy array cell if the string contained the second string and return another indexed array with True/False.</p>
+<p>so if I have</p>
+<p>nparr = np.array([['aaMRac','bbbb'],['ccc','ffff'],['eeee','gggggg']])</p>
+<p>[['aaMRac','bbbb'],</p>
+<p>['ccc','ffff'],</p>
+<p>['eeee','gggggg']]
+and I’m looking for strings that contain ‘MR’ substring</p>
+<p>I want to get</p>
+<p>[[ True, False],
+[False, False],
+[False, False]]</p>
+<p>because ‘aaMRac’  is the only that contains ‘MR’.</p>
+<p>‘MR’ in nparr</p>
+<p>will give me False because it will test for string to string equality and return the answer for entire array.</p>
+<p>To get the indexed answer</p>
+<p>np.array(['MR' in s for s in nparr.flat]).reshape(nparr.shape)</p>
+<p>which flattens and before looking for substring and then creates the new indexed answer with the right shape.</p>
+<p>array([[ True, False],
+[False, False],
+[False, False]], dtype=bool)</p>
+<p>if you want to go select only one column  you can do like this</p>
+<p>np.array(['MR' in s for s in a[0:,1].flat])</p>
+    </div><!-- /.entry-content -->
+    
+  </article>
+</section>
+        <section id="extras" class="body">
+                        <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                                                    <li><a href="http://www.alexparij.com">Alex Parij</a></li>
+                                                </ul>
+                </div><!-- /.blogroll -->
+                                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/None" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            
+                                                    <li><a href="#">You can add links in your config file</a></li>
+                                                    <li><a href="#">Another social link</a></li>
+                                                </ul>
+                </div><!-- /.social -->
+                </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
