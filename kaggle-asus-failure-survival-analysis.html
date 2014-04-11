@@ -194,8 +194,10 @@ let&#8217;s say 10000 components were sold on Nov/2009 I need to know how many o
 at 3 months the cumulative hazard is 0.000785 and at 2 months  0.000339 , the slope will be 0.000785-0.000339=.000446 . Taking the population multiplied by instantenious hazard 
 10000*0.000446 = 4.46 . On Feb/2010 4 components will be returned for repairs.
 Based on the data, usually from 0 to 45 months it gave a nice prediction but for components that were sold earlier and I had to extrapolate how many will be repaired after 4-5 years I used a modified linear regression based only on the last couple of points and I would slowly decay the hazard value from this regression.  <br />
-I would also manually add extra weight for summer months, because it looked like in summer months the components failed more.
-The source for the Python implementation is on Github <a href="https://github.com/aparij/kaggle_asus">Code</a> </p>
+I would also manually add extra weight for summer months, because it looked like in summer months the components failed&nbsp;more.</p>
+<p><img alt="Repairs graph" src="images/repairs_2.png" /></p>
+<p>The red dots are the forecasted&nbsp;repairs.</p>
+<p>The source for the Python implementation is on Github <a href="https://github.com/aparij/kaggle_asus">Code</a> </p>
 <p>I also&nbsp;tried:</p>
 <p>Aalen’s Additive model from survival analysis, which is a regression model with multiple covariabts. It was too slow and a bit worse results, 
 maybe I chose bad covariants(sale seasons, months&#8230;).
