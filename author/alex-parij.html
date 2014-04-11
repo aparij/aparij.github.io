@@ -22,7 +22,194 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html">Kaggle's Facebook competition</a></h1>
+                    <h1 class="entry-title"><a href="http://blog.alexparij.com/kaggle-asus-failure-survival-analysis.html">Kaggle&#8217;s Asus Competition - got into top&nbsp;25%</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-04-11T10:20:00">
+                Fri 11 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="http://blog.alexparij.com/author/alex-parij.html">Alex Parij</a>
+        </address>
+<p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
+<p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/machinelearning.html">machinelearning</a><a href="http://blog.alexparij.com/tag/kaggle.html">kaggle</a></p>
+</footer><!-- /.post-info --><p>I recently finished participating in Kaggle&#8217;s <span class="caps">ASUS</span> competition which was about predicting future malfunctional 
+components of <span class="caps">ASUS</span> notebooks from historical data. My final placement in this competition was 140/614 that is the top 25%, for which I&#8217;m very happy.
+Considering the fact that it was more about time-series forecasting and less to do with core machine learning algorithms, I&#8217;ve done&nbsp;well. </p>
+<p>Basically I was given two data sources, one is sales and another repairs.
+Sales data was from January/2005 to February/2008&nbsp;:</p>
+<table>
+<thead>
+<tr>
+<th>module_category</th>
+<th>component_category</th>
+<th>year/month</th>
+<th>number_sale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M4</td>
+<td>P10</td>
+<td>2007/1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>P27</td>
+<td>2005/5</td>
+<td>1042</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>P22</td>
+<td>2005/9</td>
+<td>1677</td>
+</tr>
+</tbody>
+</table>
+<p>Repairs data was from February/2005 to December/2009, for&nbsp;example:</p>
+<table>
+<thead>
+<tr>
+<th>module_category</th>
+<th>component_category</th>
+<th>year/month(sale)</th>
+<th>year/month(repair)</th>
+<th>number_repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M6</td>
+<td>P16</td>
+<td>2007/9</td>
+<td>2009/4</td>
+<td>1</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>P30</td>
+<td>2007/9</td>
+<td>2009/8</td>
+<td>1</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>P12</td>
+<td>2006/10</td>
+<td>2008/2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>P30</td>
+<td>2006/5</td>
+<td>2007/7</td>
+<td>1</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>P06</td>
+<td>2007/8</td>
+<td>2007/12</td>
+<td>1</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>P19</td>
+<td>2006/7</td>
+<td>2007/6</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>And I was trying to predict the monthly repair amount for each module-component from January/2010 to July/2011 (for 19 months) .
+The prediction was evaluated using mean absolute error (<span class="caps">MAE</span>) which is the difference bertween the number of repairs I predicted 
+vs real repairs data <span class="caps">ASUS</span> had, devided by total of prediction&nbsp;rows.</p>
+<p>Just to explore the data using Python&#8217;s Pandas DataFrame, grouping by module,component and&nbsp;date,.</p>
+<div class="highlight"><pre> <span class="n">repair_data</span><span class="p">.</span><span class="n">groupby</span><span class="p">([</span><span class="err">&#39;</span><span class="n">module_category</span><span class="sc">&#39;,&#39;</span><span class="n">component_category</span><span class="sc">&#39;,&#39;</span><span class="n">year</span><span class="o">/</span><span class="n">month</span><span class="p">(</span><span class="n">repair</span><span class="p">)</span><span class="err">&#39;</span><span class="p">],</span><span class="n">as_index</span><span class="o">=</span><span class="n">False</span><span class="p">).</span><span class="n">agg</span><span class="p">({</span><span class="err">&#39;</span><span class="n">number_repair</span><span class="err">&#39;</span><span class="o">:</span><span class="n">np</span><span class="p">.</span><span class="n">sum</span><span class="p">})</span>
+</pre></div>
+
+
+<p>Just one component&#8217;s graph of the total repairs 2005 to 2009 time series will look like this&nbsp;:</p>
+<p><img alt="Repairs graph" src="images/repairs.png" /></p>
+<p>We can see that the number of repairs grows as more components are sold and also as the time passes, but falls off around two years mark 
+as the first sold models reach that age. Not sure why the drop but my assumption was that the warranty expired.
+ The number of repairs in the end of 2009 is zero or almost zero for most components and we need to predict what happens in the next 19 months.
+The easiest would be just take the last points and fit some linear regression or moving average,
+ that would bring us above the baseline(which is predict that we have only zero repairs) but it would not be the best&nbsp;model. </p>
+<p>My most most successful model was built using a simple survival analysis
+ (using Python&#8217;s <a href="https://github.com/CamDavidsonPilon/lifelines">Lifelines</a> package) blended with linear regression for 
+the tail of the 19 months to&nbsp;forecast</p>
+<p>I took the time from sale of component to repair as time to death/event and the rest of the components were right censored(never had death event).
+Didn&#8217;t matter when the component was sold because it was all relative. I got let&#8217;s say couple of thousands deaths with 1 to ~ 45 months from been
+ sold to the repaired/death event and ~500k of right censored items and then estimated the hazard rates using <a href="http://en.wikipedia.org/wiki/Nelson%E2%80%93Aalen_estimator">Nelson-Aalen estimator</a> from
+Lifelines library.
+data would look like this, an array of deaths&nbsp;:</p>
+<div class="highlight"><pre>  <span class="n">data_events</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
+  <span class="n">array</span><span class="p">([</span> <span class="mf">70.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">1.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>
+     <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>
+     <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">2.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>
+     <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>
+     <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>
+     <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>
+     <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>   <span class="mf">3.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>
+    <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>
+    <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>  <span class="mf">12.</span><span class="p">,</span>
+    <span class="mf">12.</span><span class="p">])</span>
+</pre></div>
+
+
+<p>the first cell for example has a value of 70 it is a component that never was repaired but right censored, it can be any arbitrary high number. other cells with values like 1 or 12 or 3
+is after how many months the component was repaired. If it was sold in September/2008 and repaired in September/2009 it means 12 months later death event occured. So I would  have arrays of size around 500k mostly with a value of 70 (component that never repaired).
+Fitting the&nbsp;data:</p>
+<p>naf = NelsonAalenFitter()
+   naf.fit(data_events, event_observed=C&nbsp;)</p>
+<p>C is the index of right censored components in the array (the ones with&nbsp;70)</p>
+<p>What I get is the cumulative hazard rate, which is an integration of survival&nbsp;function</p>
+<div class="highlight"><pre>  <span class="n">naf</span><span class="p">.</span><span class="n">cumulative_hazard_</span>
+
+    <span class="n">timeline</span>   <span class="n">NA</span><span class="o">-</span><span class="n">estimate</span>          
+    <span class="mi">0</span>            <span class="mf">0.000000</span>
+    <span class="mi">1</span>            <span class="mf">0.000071</span>
+    <span class="mi">2</span>            <span class="mf">0.000339</span>
+    <span class="mi">3</span>            <span class="mf">0.000785</span>
+    <span class="mi">4</span>            <span class="mf">0.001369</span>
+    <span class="mi">5</span>            <span class="mf">0.001962</span>
+    <span class="p">...</span>
+    <span class="p">...</span>
+</pre></div>
+
+
+<p><img alt="Hazard graph" src="images/hazard_1.png" /></p>
+<p>What is important in this graph is the rate of change, in the beginning the slope is quite high that is basically gives high hazard rate at any moment(more repairs) and then after two years it would
+stabilize and have almost a zero slope which is equivalent to no or very little repairs/death events.
+let&#8217;s say 10000 components were sold on Nov/2009 I need to know how many of them will be repaired in Feb/2010 which is 3 months after the sale. From the cumulative hazard  I can see that
+at 3 months the cumulative hazard is 0.000785 and at 2 months  0.000339 , the slope will be 0.000785-0.000339=.000446 . Taking the population multiplied by instantenious hazard 
+10000*0.000446 = 4.46 . On Feb/2010 4 components will be returned for repairs.
+Based on the data, usually from 0 to 45 months it gave a nice prediction but for components that were sold earlier and I had to extrapolate how many will be repaired after 4-5 years I used a modified linear regression based only on the last couple of points and I would slowly decay the hazard value from this regression.  <br />
+I would also manually add extra weight for summer months, because it looked like in summer months the components failed more.
+The source for the Python implementation is on Github <a href="https://github.com/aparij/kaggle_asus">Code</a> </p>
+<p>I also&nbsp;tried:</p>
+<p>Aalen’s Additive model from survival analysis, which is a regression model with multiple covariabts. It was too slow and a bit worse results, 
+maybe I chose bad covariants(sale seasons, months&#8230;).
+I read some participants managed to rank top spots using Cox model which is another regression model from survival&nbsp;analysis.</p>
+<p>I also did <span class="caps">VAR</span> and <span class="caps">ARMA</span> from time series analysis in python&#8217;s statsmodels but it worked badly or I just didn&#8217;t understand it&nbsp;properly</p>
+<p>Big thanks to Cameronon Davidson-Pilon for writing the excellent Lifelines package for&nbsp;Python.</p><p>There are <a href="http://blog.alexparij.com/kaggle-asus-failure-survival-analysis.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html" rel="bookmark"
+                           title="Permalink to Kaggle’s Facebook competition">Kaggle&#8217;s Facebook&nbsp;competition</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2013-12-21T10:20:00">
                 Sat 21 December 2013
@@ -33,36 +220,15 @@
         </address>
 <p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a><a href="http://blog.alexparij.com/tag/gensim.html">gensim</a><a href="http://blog.alexparij.com/tag/machinelearning.html">machinelearning</a><a href="http://blog.alexparij.com/tag/kaggle.html">kaggle</a></p>
-</footer><!-- /.post-info --><p>Kaggle's FacebookIII keyword extraction competition is over.
-It was about predicting tags to StackExchange questions.
-Check it out at <a href="http://www.kaggle.com/c/facebook-recruiting-iii-keyword-extraction">Kaggle</a>.</p>
-<p>I've entered at a very late stage of the competition and didn't have time to properly experiment. 
-My final standing was quite low 316/380, but I just had 3 weeks comparing to 4 months of the total competition's length, so I'm OK with that.
-It was also my first experience with Gensim python library (after reading "Building Machine Learning Systems with Python" by Rciher,Coelho). </p>
-<p>I've tried to model the question's topic using LDA <a href="http://en.wikipedia.org/wiki/Latent_Dirichlet_allocation">Wikipedia</a>. For preprocessing I used NLTK with stemming, stop words and punctuation marks were removed. 
-Removing less frequent words (e.g. encountered only once). Tried to remove code snippets.
-Then I would find the most similar question based on the topics generated by LDA algo and take the tags from the training question to the test question and drop less frequent tags</p>
-<h1>So what could have I done better?</h1>
-<p>Preprocessing should be done only once, while I did every time I was building a dictionary or corpora. It would have probably sped 
-it up by at least x2. 
-More automatic parallezation(although I used MLK by Contunium Analytics to get some free optimization up to 4 threads without extra work on my part).
-For example I could have made some simple code to split/load large test file or it  can be done manually using Linux split on test.csv and then "cat * &gt; out" and combining the results.
-POS(parts of speech) tagging was too slow(using NLTK) but I can see that with other speed improvements POS can be used to remove adjectives,adverbs and others, lowering the numbfer of features.
-There were too many features (1mil words) for 3mil training entries! I should have tried to remove most of them. Removing words with freq=1 was not enough.
-In the end for 3 mil training rows the similarity search was too slow and 2 mil test rows will take 48 hours to calculate.I moved to a high-end machines in an Amazon cloud. It did sped up things since it had 8 cores to work and I could just split the test file across processes.
-For some reason MKL or BLAS run only with one thread, I tried to use StarCluster ec2 image that comes with all the SciPy libs preinstalled but still it would persistenly run on one thread.</p>
-<p>Anyways , next time I should join the competition earlier.</p>
-<p>The source is on <a href="https://github.com/aparij/KaggleFacebookIII">Github</a></p><p>There are <a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Kaggle's Facebook competition</p>
+                <a class="readmore" href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html">read more</a>
+<p>There are <a href="http://blog.alexparij.com/kaggle-facebook-competition-keyword-extraction.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
                     <h1><a href="http://blog.alexparij.com/numpy-array-string-search.html" rel="bookmark"
-                           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed result</a></h1>
+                           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed&nbsp;result</a></h1>
                 </header>
 
                 <div class="entry-content">

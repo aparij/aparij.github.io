@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
         <meta charset="utf-8" />
-        <title>Numpy substring search indexed result</title>
+        <title>Numpy substring search indexed result</title>
         <link rel="stylesheet" href="http://blog.alexparij.com/theme/css/main.css" />
         <link href="http://blog.alexparij.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="My humble blog Atom Feed" />
 
@@ -24,7 +24,7 @@
     <header>
       <h1 class="entry-title">
         <a href="http://blog.alexparij.com/numpy-array-string-search.html" rel="bookmark"
-           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed result</a></h1>
+           title="Permalink to Numpy substring search indexed result">Numpy substring search indexed&nbsp;result</a></h1>
     </header>
 
     <div class="entry-content">
@@ -39,7 +39,7 @@
 <p>In <a href="http://blog.alexparij.com/category/python.html">Python</a>. </p>
 <p>tags: <a href="http://blog.alexparij.com/tag/python.html">python</a><a href="http://blog.alexparij.com/tag/numpy.html">numpy</a></p>
 </footer><!-- /.post-info -->      <p>Working on Kaggle’s Titanic competition I needed to test each Numpy array cell if the string s1 contains the second string s2 and return an indexed array with True/False values.
-Let's define an array:</p>
+Let&#8217;s define an&nbsp;array:</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">:</span> <span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">:</span> <span class="n">nparr</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="s">&quot;aaMRac&quot;</span><span class="p">,</span><span class="s">&quot;bbbb&quot;</span><span class="p">],[</span><span class="s">&quot;ccc&quot;</span><span class="p">,</span><span class="s">&quot;ffff&quot;</span><span class="p">],[</span><span class="s">&quot;eeee&quot;</span><span class="p">,</span><span class="s">&quot;gggggg&quot;</span><span class="p">]]</span>
@@ -53,22 +53,22 @@ Let's define an array:</p>
 </pre></div>
 
 
-<p>and I’m looking for strings that contain ‘MR’. I should get :</p>
+<p>and I’m looking for strings that contain ‘<span class="caps">MR</span>’. I should get&nbsp;:</p>
 <div class="highlight"><pre><span class="p">[</span><span class="n">True</span><span class="p">,</span> <span class="n">False</span><span class="p">],</span>
 <span class="p">[</span><span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">],</span>
 <span class="p">[</span><span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">]</span>
 </pre></div>
 
 
-<p>because ‘aaMRac’ is the only cell that one contains ‘MR’.
-Trying :</p>
+<p>because ‘aaMRac’ is the only cell that one contains ‘<span class="caps">MR</span>’.
+Trying&nbsp;:</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">:</span> <span class="s">&quot;MR&quot;</span> <span class="n">in</span> <span class="n">nparr</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">:</span> <span class="n">False</span>
 </pre></div>
 
 
-<p>Gives me False because it tests for a string to string equality and returns the answer for the entire array.</p>
-<p>To get the indexed answer I do</p>
+<p>Gives me False because it tests for a string to string equality and returns the answer for the entire&nbsp;array.</p>
+<p>To get the indexed answer I&nbsp;do</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="s">&quot;MR&quot;</span> <span class="n">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="n">in</span> <span class="n">nparr</span><span class="p">.</span><span class="n">flat</span><span class="p">]).</span><span class="n">reshape</span><span class="p">(</span><span class="n">nparr</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">:</span> 
 <span class="n">array</span><span class="p">([[</span> <span class="n">True</span><span class="p">,</span> <span class="n">False</span><span class="p">],</span>
@@ -77,8 +77,8 @@ Trying :</p>
 </pre></div>
 
 
-<p>which flattens the array before looking for the substring using a list comprehension. It then creates the new indexed answer with the right array dimensions.</p>
-<p>If you want to select only one column, you do like this:</p>
+<p>which flattens the array before looking for the substring using a list comprehension. It then creates the new indexed answer with the right array&nbsp;dimensions.</p>
+<p>If you want to select only one column, you do like&nbsp;this:</p>
 <div class="highlight"><pre><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="s">&quot;MR&quot;</span> <span class="n">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="n">in</span> <span class="n">nparr</span><span class="p">[</span><span class="mi">0</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">].</span><span class="n">flat</span><span class="p">])</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">:</span> <span class="n">array</span><span class="p">([</span><span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">,</span> <span class="n">False</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="kt">bool</span><span class="p">)</span>
 </pre></div>
